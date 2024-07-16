@@ -1,51 +1,64 @@
--- Function to dig a 3x3 staircase
-function digStaircase3x3(depth)
-    for i = 1, depth do
-        -- Dig the 3x3 area in front
-        for j = 1, 3 do
-            for k = 1, 3 do
-                -- Dig forward
-                while turtle.detect() do
-                    turtle.dig()
-                    sleep(0.5)
-                end
-                if k < 3 then
-                    turtle.forward()
-                end
-            end
-            
-            if j < 3 then
-                -- Move back to the start of the row
-                turtle.turnRight()
-                turtle.forward()
-                turtle.turnRight()
-                for k = 1, 3 do
-                    turtle.back()
-                end
-                turtle.turnLeft()
-                turtle.turnLeft()
-            end
-        end
-        
-        -- Move to the next level down
-        if i < depth then
-            for k = 1, 3 do
-                turtle.back()
-            end
-            turtle.turnRight()
-            turtle.forward()
-            turtle.turnLeft()
-            for k = 1, 3 do
-                while turtle.detectDown() do
-                    turtle.digDown()
-                    sleep(0.5)
-                end
-                turtle.down()
-            end
-        end
+function digLayer()
+    -- Dig the first layer (1x3)
+    for i = 1, 3 do
+        turtle.dig()
+        turtle.forward()
+    end
+    -- Move back to the start
+    for i = 1, 3 do
+        turtle.back()
+    end
+
+    -- Move up to the second layer
+    turtle.digUp()
+    turtle.up()
+
+    -- Dig the second layer (1x3)
+    for i = 1, 3 do
+        turtle.dig()
+        turtle.forward()
+    end
+    -- Move back to the start
+    for i = 1, 3 do
+        turtle.back()
+    end
+
+    -- Move up to the third layer
+    turtle.digUp()
+    turtle.up()
+
+    -- Dig the third layer (1x3)
+    for i = 1, 3 do
+        turtle.dig()
+        turtle.forward()
+    end
+    -- Move back to the start
+    for i = 1, 3 do
+        turtle.back()
+    end
+
+    -- Move back down to the start
+    turtle.down()
+    turtle.down()
+end
+
+function digStaircase()
+    while true do
+        digLayer()
+
+        -- Move forward to the next step position
+        turtle.forward()
+
+        -- Move down to the next layer
+        turtle.digDown()
+        turtle.down()
+        turtle.digDown()
+        turtle.down()
+
+        -- Wait for 4 seconds
+        sleep(4)
     end
 end
 
--- Main program
-local depth = 10 -- Set the depth of the staircase
-digStaircase3x3(depth)
+-- Start digging the staircase
+digStaircase()
